@@ -18,31 +18,35 @@ extension UIImage {
 }
 class DetailViewController: UICollectionViewController {
     var flashcards = [Flashcard]()
+    var myImages = [UIImage(named: "hdr-japan"), UIImage(named: "caleb-george-316073-unsplash"), UIImage(named: "hoodh-ahmed-681146-unsplash")]
+    var myImagesString = ["Japan", "1", "2"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let image = UIImage(named: "hdr-japan") {
-            let imageName = UUID().uuidString
-            let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
-            if let jpegData = image.jpegData(compressionQuality: 0.1) {
-                do {
-                    try jpegData.write(to: imagePath)
-                    // Check if the file exists at 'imagePath'
-                    let fileManager = FileManager.default
-                    if fileManager.fileExists(atPath: imagePath.path) {
-                        print("Image data has been successfully written to \(imagePath)")
-                    } else {
-                        print("Failed to write image data to \(imagePath)")
+        for (idx, item) in myImages.enumerated() {
+            if let image = item {
+                let imageName = UUID().uuidString
+                let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
+                if let jpegData = image.jpegData(compressionQuality: 0.1) {
+                    do {
+                        try jpegData.write(to: imagePath)
+                        // Check if the file exists at 'imagePath'
+                        let fileManager = FileManager.default
+                        if fileManager.fileExists(atPath: imagePath.path) {
+                            print("Image data has been successfully written to \(imagePath)")
+                        } else {
+                            print("Failed to write image data to \(imagePath)")
+                        }
+                    } catch {
+                        print("Error writing image data to file: \(error)")
                     }
-                } catch {
-                    print("Error writing image data to file: \(error)")
                 }
+                
+                let flashcard = Flashcard(name: myImagesString[idx], image: image)
+                flashcards.append(flashcard)
+                collectionView.reloadData()
+            } else {
+                print("Image not found")
             }
-            
-            let flashcard = Flashcard(name: "Japan", image: imagePath.absoluteString)
-            flashcards.append(flashcard)
-            collectionView.reloadData()
-        } else {
-            print("Image not found")
         }
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -55,16 +59,15 @@ class DetailViewController: UICollectionViewController {
         
         let flashcard = flashcards[indexPath.item]
         cell.name.text = flashcard.name
-        let path = URL(string: flashcard.image)
-        print(path!.absoluteURL)
-        print(path!.absoluteString)
-        do {
-            let data = try Data(contentsOf: path!.absoluteURL)
-            cell.imageView.image = UIImage(data: data)
-            print(data)
-        } catch {
-            print("ups")
-        }
+        let path = flashcard.imageData
+        
+//        do {
+//            let data = try Data(contentsOf: path)
+        cell.imageView.image = UIImage(data: path!)
+//            print(data)
+//        } catch {
+//            print("ups")
+//        }
         
         
         
