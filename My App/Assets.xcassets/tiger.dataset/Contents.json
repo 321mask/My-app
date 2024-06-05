@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "tiger.txt",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
