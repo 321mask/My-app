@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 extension UIImage {
     func toBase64String() -> String? {
@@ -17,11 +18,18 @@ extension UIImage {
     }
 }
 class DetailViewController: UICollectionViewController {
+    var audioPlayer: AVAudioPlayer?
     var flashcards = [Flashcard]()
-    var myImages = [UIImage(named: "hdr-japan"), UIImage(named: "caleb-george-316073-unsplash"), UIImage(named: "hoodh-ahmed-681146-unsplash")]
-    var myImagesString = ["Japan", "1", "2"]
+    var myImages = [UIImage(named: "Dog"), UIImage(named: "Cat"), UIImage(named: "Giraffe"), UIImage(named: "Tiger"), UIImage(named: "Zebra"), UIImage(named: "Lion")]
+    
+    var myImagesString = ["Dog", "Cat", "Giraffe", "Tiger", "Zebra", "Lion"]
+    
+    @objc func guessFlashcards() {
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(guessFlashcards))
         for (idx, item) in myImages.enumerated() {
             if let image = item {
                 let imageName = UUID().uuidString
@@ -51,6 +59,27 @@ class DetailViewController: UICollectionViewController {
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return flashcards.count
+    }
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.delegate = self
+        func loadSound() {
+            if let soundURL = Bundle.main.url(forResource: flashcards[indexPath.item].name, withExtension: "m4a") {
+                do {
+                    audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                    audioPlayer?.prepareToPlay()
+                } catch {
+                    print("Error loading sound file: \(error.localizedDescription)")
+                }
+            } else {
+                print("Sound file not found in the app bundle.")
+            }
+        }
+        loadSound()
+        audioPlayer?.play()
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail1") as? PicturesViewController {
+            vc.selectedImage = flashcards[indexPath.item].name
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Flashcard", for: indexPath) as? FlashcardCell else {

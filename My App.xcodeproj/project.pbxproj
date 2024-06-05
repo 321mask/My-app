@@ -14,8 +14,32 @@
 		880C49532BBDB36A006A3DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 880C49522BBDB36A006A3DF9 /* Assets.xcassets */; };
 		880C49562BBDB36A006A3DF9 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 880C49552BBDB36A006A3DF9 /* Base */; };
 		880C49602BBED97E006A3DF9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880C495F2BBED97E006A3DF9 /* DetailViewController.swift */; };
+		880FF5DF2BC97F3100002230 /* flashcardsGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880FF5DE2BC97F3100002230 /* flashcardsGameViewController.swift */; };
+		880FF5E12BC9807C00002230 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880FF5E02BC9807C00002230 /* GameScene.swift */; };
 		881E2B2F2BC5C65500928D8D /* Flashcard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E2B2E2BC5C65500928D8D /* Flashcard.swift */; };
 		881E2B312BC5C7B500928D8D /* FlashcardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881E2B302BC5C7B500928D8D /* FlashcardCell.swift */; };
+		883ABB532BEE28B4002A8E6F /* tiger has.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 883ABB4E2BEE28B4002A8E6F /* tiger has.jpeg */; };
+		883ABB542BEE28B4002A8E6F /* Tiger is.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 883ABB4F2BEE28B4002A8E6F /* Tiger is.jpeg */; };
+		883ABB552BEE28B4002A8E6F /* Tiger at.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 883ABB502BEE28B4002A8E6F /* Tiger at.jpeg */; };
+		883ABB562BEE28B4002A8E6F /* tiger had.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 883ABB512BEE28B4002A8E6F /* tiger had.jpeg */; };
+		883ABB582BEE54AF002A8E6F /* tiger will have.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 883ABB572BEE54AF002A8E6F /* tiger will have.jpeg */; };
+		8847A4812BCFB727003D4780 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 8847A4802BCFB727003D4780 /* GameScene.sks */; };
+		8847A4852BCFB89A003D4780 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8847A4842BCFB89A003D4780 /* GameViewController.swift */; };
+		884EA0282BF7B28300F56D3F /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 884EA0272BF7B28300F56D3F /* Actions.sks */; };
+		886ADF842BEBB4D900201CFC /* Dog.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 886ADF832BEBB4D900201CFC /* Dog.m4a */; };
+		886ADF862BEBB4F800201CFC /* Cat.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 886ADF852BEBB4F800201CFC /* Cat.m4a */; };
+		886ADF882BEBB50000201CFC /* Giraffe.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 886ADF872BEBB50000201CFC /* Giraffe.m4a */; };
+		886ADF8A2BEBB50800201CFC /* Tiger.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 886ADF892BEBB50800201CFC /* Tiger.m4a */; };
+		886ADF8C2BEBB50F00201CFC /* Zebra.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 886ADF8B2BEBB50F00201CFC /* Zebra.m4a */; };
+		886ADF8E2BEBB51700201CFC /* Lion.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 886ADF8D2BEBB51700201CFC /* Lion.m4a */; };
+		88A463762BFF50BF002DE6F9 /* cat.txt in Resources */ = {isa = PBXBuildFile; fileRef = 88A463752BFF50BF002DE6F9 /* cat.txt */; };
+		88A643F82BD15AC800F4ABAB /* tiger.txt in Resources */ = {isa = PBXBuildFile; fileRef = 88A643F72BD15AC800F4ABAB /* tiger.txt */; };
+		88A84F4E2BDBDDFA0054C16C /* GrammarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A84F4D2BDBDDFA0054C16C /* GrammarViewController.swift */; };
+		88A84F502BDE89130054C16C /* EasyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A84F4F2BDE89130054C16C /* EasyTableViewController.swift */; };
+		88A84F522BDE893F0054C16C /* MediumTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A84F512BDE893F0054C16C /* MediumTableViewController.swift */; };
+		88A84F542BDE89580054C16C /* HardTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A84F532BDE89580054C16C /* HardTableViewController.swift */; };
+		88A84F562BDFF8860054C16C /* PicturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A84F552BDFF8860054C16C /* PicturesViewController.swift */; };
+		88A84F5E2BE111ED0054C16C /* Matching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88A84F5D2BE111ED0054C16C /* Matching.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +52,32 @@
 		880C49552BBDB36A006A3DF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		880C49572BBDB36A006A3DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		880C495F2BBED97E006A3DF9 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		880FF5DE2BC97F3100002230 /* flashcardsGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flashcardsGameViewController.swift; sourceTree = "<group>"; };
+		880FF5E02BC9807C00002230 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		881E2B2E2BC5C65500928D8D /* Flashcard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flashcard.swift; sourceTree = "<group>"; };
 		881E2B302BC5C7B500928D8D /* FlashcardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardCell.swift; sourceTree = "<group>"; };
+		883ABB4E2BEE28B4002A8E6F /* tiger has.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "tiger has.jpeg"; path = "../../../../Downloads/tiger has.jpeg"; sourceTree = "<group>"; };
+		883ABB4F2BEE28B4002A8E6F /* Tiger is.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Tiger is.jpeg"; path = "../../../../Downloads/Tiger is.jpeg"; sourceTree = "<group>"; };
+		883ABB502BEE28B4002A8E6F /* Tiger at.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Tiger at.jpeg"; path = "../../../../Downloads/Tiger at.jpeg"; sourceTree = "<group>"; };
+		883ABB512BEE28B4002A8E6F /* tiger had.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "tiger had.jpeg"; path = "../../../../Downloads/tiger had.jpeg"; sourceTree = "<group>"; };
+		883ABB572BEE54AF002A8E6F /* tiger will have.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "tiger will have.jpeg"; sourceTree = "<group>"; };
+		8847A4802BCFB727003D4780 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		8847A4842BCFB89A003D4780 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		884EA0272BF7B28300F56D3F /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		886ADF832BEBB4D900201CFC /* Dog.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Dog.m4a; sourceTree = "<group>"; };
+		886ADF852BEBB4F800201CFC /* Cat.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Cat.m4a; sourceTree = "<group>"; };
+		886ADF872BEBB50000201CFC /* Giraffe.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Giraffe.m4a; sourceTree = "<group>"; };
+		886ADF892BEBB50800201CFC /* Tiger.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Tiger.m4a; sourceTree = "<group>"; };
+		886ADF8B2BEBB50F00201CFC /* Zebra.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zebra.m4a; sourceTree = "<group>"; };
+		886ADF8D2BEBB51700201CFC /* Lion.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lion.m4a; sourceTree = "<group>"; };
+		88A463752BFF50BF002DE6F9 /* cat.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat.txt; sourceTree = "<group>"; };
+		88A643F72BD15AC800F4ABAB /* tiger.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tiger.txt; sourceTree = "<group>"; usesTabs = 0; };
+		88A84F4D2BDBDDFA0054C16C /* GrammarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrammarViewController.swift; sourceTree = "<group>"; };
+		88A84F4F2BDE89130054C16C /* EasyTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyTableViewController.swift; sourceTree = "<group>"; };
+		88A84F512BDE893F0054C16C /* MediumTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumTableViewController.swift; sourceTree = "<group>"; };
+		88A84F532BDE89580054C16C /* HardTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardTableViewController.swift; sourceTree = "<group>"; };
+		88A84F552BDFF8860054C16C /* PicturesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesViewController.swift; sourceTree = "<group>"; };
+		88A84F5D2BE111ED0054C16C /* Matching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matching.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,16 +110,40 @@
 		880C49482BBDB367006A3DF9 /* My App */ = {
 			isa = PBXGroup;
 			children = (
+				884EA0272BF7B28300F56D3F /* Actions.sks */,
+				8847A4802BCFB727003D4780 /* GameScene.sks */,
 				880C49492BBDB367006A3DF9 /* AppDelegate.swift */,
 				880C494B2BBDB367006A3DF9 /* SceneDelegate.swift */,
 				880C494D2BBDB367006A3DF9 /* ViewController.swift */,
+				88A84F4D2BDBDDFA0054C16C /* GrammarViewController.swift */,
+				880FF5DE2BC97F3100002230 /* flashcardsGameViewController.swift */,
 				880C494F2BBDB367006A3DF9 /* Main.storyboard */,
+				88A84F5D2BE111ED0054C16C /* Matching.swift */,
+				88A84F552BDFF8860054C16C /* PicturesViewController.swift */,
+				88A84F4F2BDE89130054C16C /* EasyTableViewController.swift */,
+				88A84F512BDE893F0054C16C /* MediumTableViewController.swift */,
+				88A84F532BDE89580054C16C /* HardTableViewController.swift */,
+				880FF5E02BC9807C00002230 /* GameScene.swift */,
+				8847A4842BCFB89A003D4780 /* GameViewController.swift */,
 				881E2B302BC5C7B500928D8D /* FlashcardCell.swift */,
 				880C495F2BBED97E006A3DF9 /* DetailViewController.swift */,
 				881E2B2E2BC5C65500928D8D /* Flashcard.swift */,
 				880C49522BBDB36A006A3DF9 /* Assets.xcassets */,
 				880C49542BBDB36A006A3DF9 /* LaunchScreen.storyboard */,
 				880C49572BBDB36A006A3DF9 /* Info.plist */,
+				88A463752BFF50BF002DE6F9 /* cat.txt */,
+				88A643F72BD15AC800F4ABAB /* tiger.txt */,
+				883ABB502BEE28B4002A8E6F /* Tiger at.jpeg */,
+				883ABB512BEE28B4002A8E6F /* tiger had.jpeg */,
+				883ABB4E2BEE28B4002A8E6F /* tiger has.jpeg */,
+				883ABB572BEE54AF002A8E6F /* tiger will have.jpeg */,
+				883ABB4F2BEE28B4002A8E6F /* Tiger is.jpeg */,
+				886ADF832BEBB4D900201CFC /* Dog.m4a */,
+				886ADF852BEBB4F800201CFC /* Cat.m4a */,
+				886ADF872BEBB50000201CFC /* Giraffe.m4a */,
+				886ADF892BEBB50800201CFC /* Tiger.m4a */,
+				886ADF8B2BEBB50F00201CFC /* Zebra.m4a */,
+				886ADF8D2BEBB51700201CFC /* Lion.m4a */,
 			);
 			path = "My App";
 			sourceTree = "<group>";
@@ -134,9 +206,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				886ADF8A2BEBB50800201CFC /* Tiger.m4a in Resources */,
+				886ADF842BEBB4D900201CFC /* Dog.m4a in Resources */,
+				883ABB542BEE28B4002A8E6F /* Tiger is.jpeg in Resources */,
+				88A463762BFF50BF002DE6F9 /* cat.txt in Resources */,
+				883ABB552BEE28B4002A8E6F /* Tiger at.jpeg in Resources */,
+				883ABB532BEE28B4002A8E6F /* tiger has.jpeg in Resources */,
+				88A643F82BD15AC800F4ABAB /* tiger.txt in Resources */,
+				886ADF8C2BEBB50F00201CFC /* Zebra.m4a in Resources */,
 				880C49532BBDB36A006A3DF9 /* Assets.xcassets in Resources */,
+				886ADF882BEBB50000201CFC /* Giraffe.m4a in Resources */,
+				884EA0282BF7B28300F56D3F /* Actions.sks in Resources */,
+				883ABB562BEE28B4002A8E6F /* tiger had.jpeg in Resources */,
+				8847A4812BCFB727003D4780 /* GameScene.sks in Resources */,
+				886ADF862BEBB4F800201CFC /* Cat.m4a in Resources */,
 				880C49562BBDB36A006A3DF9 /* Base in Resources */,
+				886ADF8E2BEBB51700201CFC /* Lion.m4a in Resources */,
 				880C49512BBDB367006A3DF9 /* Base in Resources */,
+				883ABB582BEE54AF002A8E6F /* tiger will have.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,9 +236,18 @@
 			files = (
 				881E2B312BC5C7B500928D8D /* FlashcardCell.swift in Sources */,
 				880C494E2BBDB367006A3DF9 /* ViewController.swift in Sources */,
+				880FF5E12BC9807C00002230 /* GameScene.swift in Sources */,
 				881E2B2F2BC5C65500928D8D /* Flashcard.swift in Sources */,
+				8847A4852BCFB89A003D4780 /* GameViewController.swift in Sources */,
+				88A84F5E2BE111ED0054C16C /* Matching.swift in Sources */,
+				880FF5DF2BC97F3100002230 /* flashcardsGameViewController.swift in Sources */,
 				880C494A2BBDB367006A3DF9 /* AppDelegate.swift in Sources */,
+				88A84F542BDE89580054C16C /* HardTableViewController.swift in Sources */,
 				880C494C2BBDB367006A3DF9 /* SceneDelegate.swift in Sources */,
+				88A84F4E2BDBDDFA0054C16C /* GrammarViewController.swift in Sources */,
+				88A84F502BDE89130054C16C /* EasyTableViewController.swift in Sources */,
+				88A84F562BDFF8860054C16C /* PicturesViewController.swift in Sources */,
+				88A84F522BDE893F0054C16C /* MediumTableViewController.swift in Sources */,
 				880C49602BBED97E006A3DF9 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,8 +406,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -341,8 +437,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

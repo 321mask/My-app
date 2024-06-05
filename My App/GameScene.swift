@@ -19,29 +19,24 @@ enum CollisionTypes: UInt32 {
 }
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    let correctWord = "tiger"
+    var correctWord = "tiger"
     var collectedLetters: [Character] = []
+    var collectedLetterNodes: Set<SKNode> = []
     var motionManager: CMMotionManager!
     var lastTouchPosition: CGPoint?
     var player: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     var isGameOver = false
+    var playerIsCollidingWithVortex = false
+    var levels = ["tiger", "cat"]
+    var previousLevel: String?
 
     var score = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
         }
     }
-    func didBegin(_ contact: SKPhysicsContact) {
-        let nodeA = contact.bodyA.node!
-        let nodeB = contact.bodyB.node!
-
-        if nodeA == player {
-            playerCollided(with: nodeB)
-        } else if nodeB == player {
-            playerCollided(with: nodeA)
-        }
-    }
+    
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -71,34 +66,71 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 #endif
     }
     func animateLetterCollection(for letterNode: SKSpriteNode) {
-        // Example: Scale down animation
         let scaleDown = SKAction.scale(to: 0.5, duration: 0.2)
-        let scaleUp = SKAction.scale(to: 1.0, duration: 0.2)
-        let sequence = SKAction.sequence([scaleDown, scaleUp])
-        letterNode.run(sequence)
+        let moveToCorner = SKAction.move(to: CGPoint(x: frame.maxX - 200 + CGFloat(collectedLetters.count * 30), y: 20), duration: 0.5)
+        let group = SKAction.group([scaleDown, moveToCorner])
+        
+        letterNode.run(group)
     }
 
     func animateWordFormation() {
-        // Example: Zoom and fade in animation for the formed word
-        let label = SKLabelNode(text: correctWord)
-        label.fontSize = 40
-        label.fontColor = .white
-        label.position = CGPoint(x: frame.midX, y: frame.midY)
-        label.alpha = 0
-        addChild(label)
+        // Create a label for each collected letter and position them in sequence
         
-        let zoomIn = SKAction.scale(to: 2.0, duration: 1.0)
-        let fadeIn = SKAction.fadeIn(withDuration: 1.0)
-        let group = SKAction.group([zoomIn, fadeIn])
-        label.run(group)
-    }
+        let word = correctWord
+        let letterSpacing: CGFloat = 30.0
+        let startX = frame.midX - CGFloat(word.count) * letterSpacing / 2
+        let startY = frame.midY
 
+        var letterNodes: [SKLabelNode] = []
+
+        for (index, letter) in word.enumerated() {
+            let label = SKLabelNode(text: String(letter))
+            label.fontSize = 60
+            label.fontColor = .red
+            label.position = CGPoint(x: startX + CGFloat(index) * letterSpacing, y: startY)
+            label.alpha = 0
+            label.zPosition = 2
+            addChild(label)
+            letterNodes.append(label)
+        }
+
+        // Define the animations
+        let fadeIn = SKAction.fadeIn(withDuration: 0.5)
+        let scaleUp = SKAction.scale(to: 2.0, duration: 0.5)
+        let scaleDown = SKAction.scale(to: 1.0, duration: 0.5)
+        let changeColor = SKAction.colorize(with: .yellow, colorBlendFactor: 1.0, duration: 0.5)
+        let resetColor = SKAction.colorize(with: .white, colorBlendFactor: 1.0, duration: 0.5)
+
+        let animationSequence = SKAction.sequence([fadeIn, scaleUp, changeColor, scaleDown, resetColor])
+
+        // Run the animation sequence on each letter node with a delay between each
+        for (index, letterNode) in letterNodes.enumerated() {
+            let delay = SKAction.wait(forDuration: TimeInterval(index) * 0.3)
+            let delayedSequence = SKAction.sequence([delay, animationSequence])
+            letterNode.run(delayedSequence)
+        }
+        // Optional: Add a final animation for the entire word
+        let wordLabel = SKLabelNode(text: word)
+        wordLabel.fontSize = 60
+        wordLabel.fontColor = .green
+        wordLabel.position = CGPoint(x: frame.midX, y: frame.midY - 100)
+        wordLabel.alpha = 0
+//        addChild(wordLabel)
+
+        let finalZoomIn = SKAction.scale(to: 2.0, duration: 1.0)
+        let finalFadeIn = SKAction.fadeIn(withDuration: 1.0)
+        let finalGroup = SKAction.group([finalZoomIn, finalFadeIn])
+        let finalSequence = SKAction.sequence([SKAction.wait(forDuration: TimeInterval(word.count) * 0.3), finalGroup])
+
+        wordLabel.run(finalSequence)
+    }
     func updateCollectedWordDisplay() {
         // Display collected letters at the bottom right corner
         let collectedWord = String(collectedLetters)
         let collectedLabel = SKLabelNode(text: collectedWord)
-        collectedLabel.fontSize = 20
-        collectedLabel.fontColor = .white
+        
+        collectedLabel.fontSize = 40
+        collectedLabel.fontColor = .red
         collectedLabel.horizontalAlignmentMode = .right
         collectedLabel.verticalAlignmentMode = .bottom
         collectedLabel.position = CGPoint(x: frame.maxX - 20, y: 20)
@@ -109,57 +141,99 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         collectedLabel.name = "collectedLabel"
-        addChild(collectedLabel)
+//        addChild(collectedLabel)
     }
 
     func resetCollectedLetters() {
         collectedLetters.removeAll()
+        collectedLetterNodes.forEach { $0.removeFromParent() }
+        collectedLetterNodes.removeAll()
         enumerateChildNodes(withName: "collectedLabel") { node, _ in
             node.removeFromParent()
         }
     }
+    func loadRandomLevel() {
+        var availableLevels = levels
+        if let previous = previousLevel {
+            availableLevels.removeAll { $0 == previous }
+        }
+        guard let selectedLevel = availableLevels.randomElement() else {
+            fatalError("No levels available to load.")
+        }
+        loadLevel(levelName: selectedLevel)
+        previousLevel = selectedLevel
+    }
 
     func playerCollided(with node: SKNode) {
-        if node.name == "vortex" {
+        guard let nodeName = node.name, nodeName != "\n", nodeName != " " else { return }
+        if node.name == "vortex" && !isGameOver {
             player.physicsBody?.isDynamic = false
             isGameOver = true
             score -= 1
+            // Delay execution of the collision handling code
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                guard let self = self else { return }
+                    
+                let move = SKAction.move(to: node.position, duration: 0.25)
+                let scale = SKAction.scale(to: 0.0001, duration: 0.25)
+                let remove = SKAction.removeFromParent()
+                let sequence = SKAction.sequence([move, scale, remove])
 
-            let move = SKAction.move(to: node.position, duration: 0.25)
-            let scale = SKAction.scale(to: 0.0001, duration: 0.25)
-            let remove = SKAction.removeFromParent()
-            let sequence = SKAction.sequence([move, scale, remove])
-
-            player.run(sequence) { [weak self] in
+                self.player.run(sequence) { [weak self] in
                 self?.createPlayer()
                 self?.isGameOver = false
+                }
             }
-        } else if node.name == "finish" {
+        } else if node.name == "n" {
             // next level?
-        }
-        if let letterNode = node as? SKSpriteNode, let letter = letterNode.name?.first {
+            loadRandomLevel()
+        } else if let letterNode = node as? SKSpriteNode, let letter = letterNode.name?.first {
+//            print("Collided with letter node: \(letter)")
                 // Check if the collided letter is part of the correct word
+            if !collectedLetterNodes.contains(letterNode) {
+                collectedLetterNodes.insert(letterNode)
                 if collectedLetters.count < correctWord.count {
                     let correctIndex = correctWord.index(correctWord.startIndex, offsetBy: collectedLetters.count)
-                    if letter == correctWord[correctIndex] {
+                    let expectedLetter = correctWord[correctIndex]
+                    print("Expected letter: \(expectedLetter)")
+                    if letter == expectedLetter {
                         // Correct letter collected
+                        
                         collectedLetters.append(letter)
+                        animateLetterCollection(for: letterNode)
                         updateCollectedWordDisplay()
                         
                         if collectedLetters.count == correctWord.count {
                             // All letters collected, form the word
                             animateWordFormation()
-                        } else {
-                            // Play collect animation for the letter
-                            animateLetterCollection(for: letterNode)
+                            score += 1
                         }
                     } else {
-                        // Incorrect letter collected, deduct score and reset
-                        score -= 1
-                        resetCollectedLetters()
+                        print("Collected wrong letter: \(letter)")
+                        var isOrderWrong = false
+                        for i in 0..<collectedLetters.count {
+                            let correctLetter = correctWord[correctWord.index(correctWord.startIndex, offsetBy: i)]
+                            if collectedLetters[i] != correctLetter {
+                                isOrderWrong = true
+                                break
+                            }
+                        }
+                        if isOrderWrong {
+                            print("Order is wrong, resetting collected letters")
+                            // All letters collected so far are in the wrong order
+                            score -= 1
+                            resetCollectedLetters()
+                        } else {
+                            print("Collected letter but in wrong order: \(letter)")
+                            // Play collect animation for the letter
+                            animateLetterCollection(for: letterNode)
+                            score -= 1
+                        }
                     }
                 }
+                print(letter)
             }
+        }
     }
     
     func createPlayer() {
@@ -181,17 +255,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.zPosition = 1
         return node
     }
+    func setupUI() {
+        let background = SKSpriteNode(imageNamed: "background.jpg")
+        background.position = CGPoint(x: 512, y: 384)
+        background.blendMode = .replace
+        background.zPosition = -1
+        addChild(background)
 
-    func loadLevel() {
-        guard let levelURL = Bundle.main.url(forResource: "tiger", withExtension: "txt") else {
-            fatalError("Could not find tiger.txt in the app bundle.")
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.text = "Score: \(score)"
+        scoreLabel.horizontalAlignmentMode = .left
+        scoreLabel.position = CGPoint(x: 16, y: 16)
+        scoreLabel.zPosition = 2
+        addChild(scoreLabel)
+    }
+
+    func loadLevel(levelName: String) {
+        resetCollectedLetters()
+        guard let levelURL = Bundle.main.url(forResource: levelName, withExtension: "txt") else {
+            fatalError("Could not find \(levelName).txt in the app bundle.")
         }
         guard let levelString = try? String(contentsOf: levelURL) else {
-            fatalError("Could not load tiger.txt from the app bundle.")
+            fatalError("Could not load \(levelName).txt from the app bundle.")
+        }
+        removeAllChildren()
+        collectedLetters.removeAll()
+        collectedLetterNodes.removeAll()
+        createPlayer()
+        setupUI()
+        
+        switch levelName {
+        case "tiger":
+            correctWord = "tiger"
+        case "cat":
+            correctWord = "cat"
+        default:
+            fatalError("Unknown level name: \(levelName)")
         }
         let lines = levelString.components(separatedBy: "\n")
-        let sWidth: CGFloat = 1366
-        let sHeight: CGFloat = 1024
+        let sWidth: CGFloat = 1024
+        let sHeight: CGFloat = 768
         
         let sceneSize = CGSize(width: sWidth, height: sHeight)  // Adjust as needed
         let scene = SKScene(size: sceneSize)
@@ -211,6 +314,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 if letter == "v" {
                     let node = SKSpriteNode(imageNamed: "vortex")
+                    node.name = "vortex"
                     node.position = position
                     node.run(SKAction.repeatForever(SKAction.rotate(byAngle: .pi, duration: 1)))
                     node.physicsBody = SKPhysicsBody(circleOfRadius: node.size.width / 2)
@@ -222,27 +326,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 else if letter == "x" {
                     // load wall
-                    let node = createBlockNode(at: Int(positionX), row: Int(positionY))
+                    let node = SKSpriteNode(imageNamed: "block")
                     node.position = position
                     node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
                     node.physicsBody?.categoryBitMask = CollisionTypes.wall.rawValue
                     node.physicsBody?.isDynamic = false
                     addChild(node)
+                }  else if letter == " " {
+                    continue
                 } else {
                     // Create a sprite node for the letter at the calculated position
-                    if let spriteNode = createSpriteNode(for: letter, at: position) {
-                        spriteNode.physicsBody = SKPhysicsBody(circleOfRadius: spriteNode.size.height / 2)
-                        spriteNode.physicsBody?.isDynamic = false
-                        spriteNode.physicsBody?.categoryBitMask = CollisionTypes.letter.rawValue
-                        spriteNode.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
-                        spriteNode.physicsBody?.collisionBitMask = 0
-                        addChild(spriteNode)
-                    } else {
-                        fatalError("Failed to create sprite node for letter: \(letter)")
-                    }
+                    createLetterNode(for: letter, at: position)
                 }
                 print("Processing letter at position (\(column), \(row)): \(letter)")
             }
+        }
+    }
+    func createLetterNode(for letter: Character, at position: CGPoint) {
+        if let spriteNode = createSpriteNode(for: letter, at: position) {
+            spriteNode.name = String(letter)
+            spriteNode.physicsBody = SKPhysicsBody(circleOfRadius: spriteNode.size.height / 2)
+            spriteNode.physicsBody?.isDynamic = false
+            spriteNode.physicsBody?.categoryBitMask = CollisionTypes.letter.rawValue
+            spriteNode.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+            spriteNode.physicsBody?.collisionBitMask = 0
+            addChild(spriteNode)
+        } else {
+            fatalError("Failed to create sprite node for letter: \(letter)")
         }
     }
     func createImage(for character: Character) -> UIImage? {
@@ -279,53 +389,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 spriteNode.position = position
             }
-            // Optionally, set position, scale, etc. for the spriteNode
-            // spriteNode.position = CGPoint(x: 100, y: 100)
-            // spriteNode.setScale(0.5)
-        spriteNode.physicsBody = SKPhysicsBody(circleOfRadius: spriteNode.size.height / 2)
-        spriteNode.physicsBody?.isDynamic = false
-        spriteNode.physicsBody?.categoryBitMask = CollisionTypes.letter.rawValue
-        spriteNode.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
-        spriteNode.physicsBody?.collisionBitMask = 0
+            spriteNode.physicsBody = SKPhysicsBody(circleOfRadius: spriteNode.size.height / 2)
+            spriteNode.physicsBody?.isDynamic = false
+            spriteNode.physicsBody?.categoryBitMask = CollisionTypes.letter.rawValue
+            spriteNode.physicsBody?.contactTestBitMask = CollisionTypes.player.rawValue
+            spriteNode.physicsBody?.collisionBitMask = 0
+            
             return spriteNode
         }
     
     override func didMove(to view: SKView) {
+        loadRandomLevel()
         physicsWorld.contactDelegate = self
-        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
-        scoreLabel.text = "Score: 0"
-        scoreLabel.horizontalAlignmentMode = .left
-        scoreLabel.position = CGPoint(x: 16, y: 16)
-        scoreLabel.zPosition = 2
-        addChild(scoreLabel)
         motionManager = CMMotionManager()
         motionManager.startAccelerometerUpdates()
         physicsWorld.gravity = .zero
-        let background = SKSpriteNode(imageNamed: "background.jpg")
-        background.position = CGPoint(x: 512, y: 384)
-        background.blendMode = .replace
-        background.zPosition = -1
-        addChild(background)
-        loadLevel()
-        createPlayer()
-        
-        // Loop through each English alphabet letter and create PNG images
-        for letter in "abcdefghijklmnopqrstuwyz" {
-            if let image = createImage(for: letter) {
-                // Convert the image to PNG data
-                if let pngData = image.pngData() {
-                    // Save the PNG data to a file
-                    let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-                    let fileURL = documentsDirectory.appendingPathComponent("\(letter).png")
-                    do {
-                        try pngData.write(to: fileURL)
-                        print("Image for letter \(letter) saved at: \(fileURL)")
-                    } catch {
-                        print("Error saving image for letter \(letter): \(error)")
-                    }
-                }
-            }
+    }
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard let nodeA = contact.bodyA.node else { return }
+        guard let nodeB = contact.bodyB.node else { return }
+
+        if nodeA == player {
+            playerCollided(with: nodeB)
+        } else if nodeB == player {
+            playerCollided(with: nodeA)
         }
     }
-    
 }
